@@ -4,24 +4,31 @@ class Account:
         self._balance = balance
         self._name = name
 
+        #__init__: 새로운 계좌를 만들 때 처음 실행되는 부분
+        #계좌번호:acc_id, 잔액:balance, 이름:name
+
     def get_acc_id(self):
         return self._acc_id
 
     def deposit(self, money):
         self._balance += money
+    # deposit(money):입금, 잔액(balance)에 받은 돈을 더합니다.
 
     def withdraw(self, money):
         if self._balance < money:
             return 0
         self._balance -= money
         return money
+    # withdraw(money):출금, 만약 잔액보다 빼려는 돈이 많으면 0을 돌려주고(실패), 충분하면 잔액을 깎고 돈을 줌
 
     def show_info(self):
         print(f"계좌ID: {self._acc_id}")
         print(f"이름: {self._name}")
         print(f"잔액: {self._balance}\n")
+    # show_info(): 이 계좌의 정보를 화면에 예쁘게 출력해주는 기능입니다.
 
-acc_arr = []
+acc_arr = [] # 데이터 저장소[은행의 '고객 명부' 또는 '파일철']
+
 
 def show_menu():
     print("-----Menu-----")
@@ -31,83 +38,20 @@ def show_menu():
     print("4. 계좌번호 전체 출력")
     print("5. 프로그램 종료")
 
-def make_account():
-    print("[계좌개설]")
-    try:
-        acc_id = int(input("계좌ID:(숫자로 입력) "))
-        name = input("이름: ")
-        balance = int(input("입금액: "))
-        print()
-    except ValueError:
-        print("\n입력 형식이 올바르지 않습니다.\n")
-        return
-
-    acc_arr.append(Account(acc_id, balance, name))
-
-def deposit_money():
-    print("[입  금]")
-    try:
-        acc_id = int(input("계좌ID: "))
-        money = int(input("입금액: "))
-    except ValueError:
-        print("\n입력 형식이 올바르지 않습니다.\n")
-        return
-
-    for acc in acc_arr:
-        if acc.get_acc_id() == acc_id:
-            acc.deposit(money)
-            print("입금완료\n")
-            return
-    print("유효하지 않은 ID 입니다.\n")
-
-def withdraw_money():
-    print("[출  금]")
-    try:
-        acc_id = int(input("계좌ID: "))
-        money = int(input("출금액: "))
-    except ValueError:
-        print("\n입력 형식이 올바르지 않습니다.\n")
-        return
-
-    for acc in acc_arr:
-        if acc.get_acc_id() == acc_id:
-            if acc.withdraw(money) == 0:
-                print("잔액부족\n")
-                return
-            print("출금완료\n")
-            return
-    print("유효하지 않은 ID 입니다\n")
-
-def show_all_acc_info():
-    for acc in acc_arr:
-        acc.show_info()
-
 def main():
-    MAKE, DEPOSIT, WITHDRAW, INQUIRE, EXIT = 1, 2, 3, 4, 5
     while True:
         show_menu()
         try:
-            choice = int(input("선택(1~5까지의 숫자만 입력) : "))
+            choice = int(input("선택: "))
         except ValueError:
-            print("\n잘못된 선택\n")
+            print("\n숫자만 입력해주세요.\n")
             continue
-        print()
 
-        if choice == MAKE:
-            make_account()
-        elif choice == DEPOSIT:
-            deposit_money()
-        elif choice == WITHDRAW:
-            withdraw_money()
-        elif choice == INQUIRE:
-            show_all_acc_info()
-        elif choice == EXIT:
+        if choice == 5:
+            print("프로그램을 종료합니다.")
             break
         else:
-            print("잘못된 선택\n")
-
+            print("아직 구현되지 않은 기능입니다.\n")
 
 if __name__ == "__main__":
     main()
-
-
